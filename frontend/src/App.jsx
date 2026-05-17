@@ -12,10 +12,11 @@ import ImageCompress from "./pages/ImageCompress";
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<LandingPage />} />
+      <Route path="/" element={<LandingPage />} /> 
 
       {/* All tools share the Layout with the Sidebar */}
       <Route element={<Layout />}>
+      
         <Route path="/pdf-to-png" element={<PdfPng />} />
         <Route path="/image-to-webp" element={<ImageWebp />} />
         <Route path="/image-to-jpg" element={<ImageJpg />} />

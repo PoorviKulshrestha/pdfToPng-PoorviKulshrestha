@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import { Link } from "react-router-dom";
 import {
   FileText,
@@ -17,6 +17,8 @@ import {
   RotateCcw,
   Sliders,
 } from "lucide-react";
+
+
 
 const FeatureCard = ({ icon, title, description, gradient, index }) => (
   <div
@@ -161,6 +163,22 @@ const features = [
 ];
 
 const LandingPage = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+const [activeSection, setActiveSection] = useState("home");
+
+const navItems = [
+  { name: "Home", link: "#home" },
+  { name: "Feature", link: "#feature" },
+  { name: "Tools", link: "#tools" },
+  { name: "Privacy", link: "#privacy" },
+];
+
+const handleNavClick = (itemName) => {
+  setActiveSection(itemName.toLowerCase());
+  setIsMenuOpen(false);
+};
+
+
   return (
     <div className="min-h-screen bg-slate-50 font-sans selection:bg-purple-100 selection:text-purple-900 overflow-x-hidden">
       {/* Animated Background Gradients */}
@@ -171,8 +189,10 @@ const LandingPage = () => {
       </div>
 
       {/* Navbar */}
-      <nav className="relative z-10 p-6 flex justify-between items-center max-w-7xl mx-auto w-full">
-        <Link to="/" className="group flex items-center gap-2">
+
+      <nav className="fixed z-9999 p-6 flex justify-between items-center max-w-7xl mx-auto w-full">
+        <a href = "#home" className="group flex items-center gap-2">
+        {/* Logo */}
           <div className="relative">
             <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl blur-lg opacity-40 group-hover:opacity-60 transition-opacity" />
             <FileText className="relative w-8 h-8 text-purple-600" />
@@ -180,13 +200,28 @@ const LandingPage = () => {
           <span className="text-2xl font-bold bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">
             pdfToPng
           </span>
-        </Link>
+        </a>
+        <div className ="hidden lg:flex items-center space-x-6">
+          {navItems.map((item) =>(
+            <a key = {item.name}
+            href = {item.link}
+            onClick = {() => handleNavClick(item.name)}
+                  className={`relative text-sm font-semibold transition-colors duration-300 hover:text-purple-600 ${
+        activeSection === item.name.toLowerCase()
+          ? "text-purple-600"
+          : "text-slate-700"
+      }`}
+            > {item.name} </a>
+          ))}
+        </div>
+        
         <a
           href="https://github.com/Durgeshwar-AI/pdfToPng"
           target="_blank"
           rel="noreferrer"
           className="group flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white shadow-sm border border-slate-200 hover:shadow-md hover:border-slate-300 transition-all duration-300 hover:scale-105"
         >
+          
           <Github className="w-5 h-5 text-slate-600 group-hover:text-slate-900 transition-colors" />
           <span className="text-slate-600 group-hover:text-slate-900 font-medium transition-colors hidden sm:inline">
             Star on GitHub
@@ -196,7 +231,7 @@ const LandingPage = () => {
 
       <main className="relative z-10">
         {/* Hero Section */}
-        <section className="max-w-6xl mx-auto px-6 pt-20 pb-24 text-center">
+        <section id = "home" className="max-w-6xl mx-auto px-6 pt-20 pb-24 text-center">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white shadow-sm border border-slate-200 mb-8 animate-fade-in-up">
             <Shield className="w-4 h-4 text-emerald-500" />
             <span className="text-sm font-medium text-slate-600">
@@ -255,7 +290,7 @@ const LandingPage = () => {
         </section>
 
         {/* Features Row */}
-        <section className="max-w-6xl mx-auto px-6 py-16">
+        <section id = "feature" className="max-w-6xl mx-auto px-6 py-16">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {features.map((feature, idx) => (
               <FeatureCard key={idx} {...feature} index={idx} />
@@ -288,7 +323,7 @@ const LandingPage = () => {
         </section>
 
         {/* Trust Banner */}
-        <section className="max-w-5xl mx-auto px-6 pb-24">
+        <section id = "privacy" className="max-w-5xl mx-auto px-6 pb-24">
           <div className="relative overflow-hidden rounded-3xl bg-white shadow-xl border border-slate-200 p-8 md:p-12">
             <div className="absolute top-0 right-0 w-64 h-64 bg-purple-100 rounded-full blur-[80px] -z-10" />
             <div className="absolute bottom-0 left-0 w-64 h-64 bg-blue-100 rounded-full blur-[80px] -z-10" />
